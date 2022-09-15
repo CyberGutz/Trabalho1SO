@@ -17,7 +17,8 @@ int main(int argc, int argv){
         fflush(stdin);
 
         if(strcmp(comando, "exit") == 0){
-            printf("\nSession log: \n");
+            printf("\nlogout\n");
+            printf("System log: \n");
             system("uptime");
             break;
         }
