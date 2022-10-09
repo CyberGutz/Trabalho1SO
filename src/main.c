@@ -3,6 +3,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <limits.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 int main(int argc, char *argv[256]){
     pid_t task;
@@ -19,13 +21,15 @@ int main(int argc, char *argv[256]){
         fgets(comando, 50, stdin);
         comando[strcspn(comando,"\n")] = '\0';
         token = strtok(comando, " ");
-        
-        while(token != NULL){
+
+
+        /*
+        while(token != 0){
             argv[argc++] = token;
-            token = strtok(NULL, "\n");
         }
         argv[argc] = NULL;
 
+        */
         
         task = fork();
 
@@ -35,12 +39,12 @@ int main(int argc, char *argv[256]){
         }
         else if(task == 0 && strcmp(comando, "exit") != 0){
             printf("\n");
-            execlp(comando, argv[0], NULL);
+            execvp(comando, argv);
             printf("\nError: it was not possible to execute %s\n",comando);
             exit(1);
         }
         else{
-            retorno = waitpid(task, &status);
+            retorno = waitpid(task, &status, 1);
         }
 
 
