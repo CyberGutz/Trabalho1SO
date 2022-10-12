@@ -8,7 +8,7 @@
 
 int main(int argc, char *argv[]){
     pid_t task;
-    int status, retorno;
+    int status, retorno, contador;
     
     char comando[50];
     char *stoken;
@@ -27,12 +27,17 @@ int main(int argc, char *argv[]){
     
 
     while(1){
+        //O sleep evita que o exec execute no lugar errado (depois do $)
         sleep(1);
         argc = 0;
+
         printf("\n%s $ ",path);
+
+        //Pega o comando
         fgets(comando, 50, stdin);
         comando[strcspn(comando,"\n")] = '\0';
 
+        //Exit vem antes pra não sair duplicado
         if(strcmp(comando, "exit") == 0){
             printf("\n****************************LOGOUT****************************\n");
             printf("\n                         ->System log:\n\n");
@@ -41,17 +46,23 @@ int main(int argc, char *argv[]){
             break;
         }
 
+        //clear funciona as vezes
+        if(strcmp(comando, "clear") == 0){
+            system("clear");
+        }
+
+        //stoken vem de space token, pra diferenciar dos tokens de pipe e arquivos
         stoken = strtok(comando, " ");
 
+        //Não mexe aqui pelo amor de Deus
         while(stoken != NULL){
-            argc++;
             argv[argc] = stoken;
+            argc++;
             stoken = strtok (NULL, " \n");
-            printf("\nArgc\t\t%d\n\nArgv\t\t%s\n\nToken\t\t%s\n\n",argc, argv[argc], stoken);
         }
         argv[argc++] = stoken;
-        printf("\nArgc\t\t%d\n\nArgv\t\t%s\n\nToken\t\t%s\n\n",argc, argv[argc], stoken);
-        
+
+        //Segue o padrão pai/filho mostrados em aula
         task = fork();
 
         if(task < 0){      
