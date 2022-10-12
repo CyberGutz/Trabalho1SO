@@ -5,6 +5,19 @@ O trabalho consiste em implementar o *rush* (rudimentary shell), ou seja, um int
 
  Referências externas ao mural da disciplina no final desse documento.
 
+ ## Makefile
+
+ Makefile é um arquivo que facilita e automatiza a compilação do código, sem precisar saber os diretórios e nem os comandos para a compilação.
+
+ ### Como usar o Makefile?
+ 
+ É bem simples usar o make, o deste projeto em específico tem 3 variações (comandos):
+- `make` :    Somente compila o código
+- `make run`:     Compila e roda o código automaticamente
+- `make clean`:   Limpa os arquivos previamente compilados
+
+> OBS: Se seu sistema não tiver o make é só instalar com `sudo apt install make`
+
  ## Referências
 
  - <a href = "https://stackoverflow.com/questions/298510/how-to-get-the-current-directory-in-a-c-program">Como colocar o path atual em uma variável.</a>
