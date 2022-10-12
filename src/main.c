@@ -8,7 +8,7 @@
 
 int main(int argc, char *argv[]){
     pid_t task;
-    int status, retorno, contador;
+    int status, retorno;
     
     char comando[50];
     char *stoken;                                //Space token
