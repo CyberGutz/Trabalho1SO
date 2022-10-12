@@ -27,6 +27,7 @@ int main(int argc, char *argv[]){
     
 
     while(1){
+        sleep(1);
         argc = 0;
         printf("\n%s $ ",path);
         fgets(comando, 50, stdin);
