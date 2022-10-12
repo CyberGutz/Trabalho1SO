@@ -11,8 +11,11 @@ int main(int argc, char *argv[]){
     int status, retorno, contador;
     
     char comando[50];
-    char *stoken;
-    
+    char *stoken;                                //Space token
+    char *fitoken;                               //File token (in)
+    char *fotoken;                               //File token (out)
+    char *ptoken;                                //Pipe token
+     
     char path[PATH_MAX];
     getcwd(path, sizeof(path));
 
@@ -51,8 +54,11 @@ int main(int argc, char *argv[]){
             system("clear");
         }
 
-        //stoken vem de space token, pra diferenciar dos tokens de pipe e arquivos
+        //Criação dos tokens
         stoken = strtok(comando, " ");
+        fitoken = strtok(comando, "<");
+        fotoken = strtok(comando, ">");
+        ptoken = strtok(comando, "|");
 
         //Não mexe aqui pelo amor de Deus
         while(stoken != NULL){
@@ -61,6 +67,7 @@ int main(int argc, char *argv[]){
             stoken = strtok (NULL, " \n");
         }
         argv[argc++] = stoken;
+        
 
         //Segue o padrão pai/filho mostrados em aula
         task = fork();
