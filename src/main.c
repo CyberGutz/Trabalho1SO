@@ -56,15 +56,11 @@ int main(int argc, char *argv[]){
 
         //Criação dos tokens
         stoken = strtok(comando, " ");
-        fitoken = strtok(comando, "<");
-        fotoken = strtok(comando, ">");
-        ptoken = strtok(comando, "|");
-
         //Não mexe aqui pelo amor de Deus
         while(stoken != NULL){
             argv[argc] = stoken;
             argc++;
-            stoken = strtok (NULL, " \n");
+            stoken= strtok (NULL, " \n");
         }
         argv[argc++] = stoken;
         
