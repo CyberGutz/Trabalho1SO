@@ -6,6 +6,36 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+int separaEsp(char *comando, int argc, char *argv[]){
+    argc = 0;
+    char *token = strtok(comando, " ");
+
+    printf("comando: %s \ttoken: %s\targc: %d \targv[%d]: %s",comando, *token, argc, *argv[argc]);
+    while(token != NULL){
+        argv[argc] = token;
+        argc++;
+        token= strtok (NULL, " \n");
+    }
+    argv[argc++] = token;
+
+    return argc;
+}
+
+void separaPipe(char *comando, int argc, char *argv[]){
+    argc = 0;
+    char *token = strtok(comando, " | ");
+
+    printf("comando: %s \ttoken: %s\targc: %d \targv[%d]: %s",comando, *token, argc, *argv[argc]);
+    while(token != NULL){
+        argv[argc] = token;
+        argc++;
+        token= strtok (NULL, " \n");
+    }
+    argv[argc++] = token;
+
+    return argc;
+}
+
 int main(int argc, char *argv[]){
     pid_t task;
     int status, retorno;
@@ -63,7 +93,6 @@ int main(int argc, char *argv[]){
             stoken= strtok (NULL, " \n");
         }
         argv[argc++] = stoken;
-        
 
         //Segue o padrão pai/filho mostrados em aula
         task = fork();
