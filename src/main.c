@@ -6,46 +6,48 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-int separaEsp(char *comando, int argc, char *argv[]){
-    argc = 0;
+int separaEsp(char *comando, char *argv[]){
+    int argc = 0;
     char *token = strtok(comando, " ");
 
-    printf("comando: %s \ttoken: %s\targc: %d \targv[%d]: %s",comando, *token, argc, *argv[argc]);
+    printf("\ncomando: %s \ttoken: %s\targc: %d \targv[%d]: %s\n",comando, token, argc, argc, argv[argc]);
     while(token != NULL){
         argv[argc] = token;
         argc++;
         token= strtok (NULL, " \n");
+        printf("\ncomando: %s \ttoken: %s\targc: %d \targv[%d]: %s\n",comando, token, argc, argc, argv[argc]);
     }
     argv[argc++] = token;
+
+    printf("\ncomando: %s \ttoken: %s\targc: %d \targv[%d]: %s\n",comando, token, argc, argc, argv[argc]);
 
     return argc;
 }
 
-void separaPipe(char *comando, int argc, char *argv[]){
-    argc = 0;
+int separaPipe(char *comando, char *argv[]){
+    int argc = 0;
     char *token = strtok(comando, " | ");
 
-    printf("comando: %s \ttoken: %s\targc: %d \targv[%d]: %s",comando, *token, argc, *argv[argc]);
+    printf("\ncomando: %s \ttoken: %s\targc: %d \targv[%d]: %s\n",comando, token, argc, argc, argv[argc]);
     while(token != NULL){
         argv[argc] = token;
         argc++;
         token= strtok (NULL, " \n");
+        printf("\ncomando: %s \ttoken: %s\targc: %d \targv[%d]: %s\n",comando, token, argc, argc, argv[argc]);
     }
     argv[argc++] = token;
+    printf("\ncomando: %s \ttoken: %s\targc: %d \targv[%d]: %s\n",comando, token, argc, argc, argv[argc]);
 
     return argc;
 }
 
 int main(int argc, char *argv[]){
     pid_t task;
-    int status, retorno;
+    int status, retorno, indice;
     
     char comando[50];
-    char *stoken;                                //Space token
-    char *fitoken;                               //File token (in)
-    char *fotoken;                               //File token (out)
-    char *ptoken;                                //Pipe token
-     
+    char *comandos[256];
+
     char path[PATH_MAX];
     getcwd(path, sizeof(path));
 
@@ -63,6 +65,7 @@ int main(int argc, char *argv[]){
         //O sleep evita que o exec execute no lugar errado (depois do $)
         sleep(1);
         argc = 0;
+        indice = 0;
 
         printf("\n%s $ ",path);
 
@@ -84,15 +87,10 @@ int main(int argc, char *argv[]){
             system("clear");
         }
 
-        //Criação dos tokens
-        stoken = strtok(comando, " ");
-        //Não mexe aqui pelo amor de Deus
-        while(stoken != NULL){
-            argv[argc] = stoken;
-            argc++;
-            stoken= strtok (NULL, " \n");
-        }
-        argv[argc++] = stoken;
+        //indice = separaPipe(comando, comandos);
+
+        argc = separaEsp(comando, argv);
+
 
         //Segue o padrão pai/filho mostrados em aula
         task = fork();
